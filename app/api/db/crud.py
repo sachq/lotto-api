@@ -1,10 +1,12 @@
 from sqlalchemy.orm import Session
-from . import models, schemas
+
+from . import models
 
 
 def get_users(db: Session):
-    return db.query(models.User).all()
+    return db.query(models.LottoDraw).all()
 
 
-def get_user(db: Session, user_id: int):
-    return db.query(models.User).filter(models.User.id == user_id).first()
+def get_user(db: Session, draw_id: int):
+    return db.query(models.LottoDraw).filter(
+        models.LottoDraw.id == draw_id).first()
