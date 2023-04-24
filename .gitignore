@@ -1,5 +1,6 @@
 # Ignore Environment Files
 .env
+alembic.ini
 
 # Ignore Cache Directories
-/__pycache__/
+**/__pycache__/
