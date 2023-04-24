@@ -1,2 +1,5 @@
 # Ignore Environment Files
-app/.env
+.env
+
+# Ignore Cache Directories
+/__pycache__/
