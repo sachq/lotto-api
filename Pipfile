@@ -9,6 +9,8 @@ uvicorn = "*"
 sqlalchemy = "*"
 psycopg2-binary = "*"
 alembic = "*"
+pandas = "*"
+setuptools = "*"
 
 [dev-packages]
 
