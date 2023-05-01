@@ -1,30 +1,17 @@
 from fastapi import Depends, APIRouter
 from sqlalchemy.orm import Session
-from datetime import date
 
-from app.api.db import crud, models, schemas, SessionLocal, engine
+from app.api.db import crud, schemas
 from app.api.db import session
 
 router = APIRouter()
 
 
-@router.get("/yearly")
-async def yearly_summary():
-    return {
-        "data": {
-            "name": "Yearly Summary",
-            "date": date.today(),
-        }
-    }
-
-
-@router.get("/users", response_model=list[schemas.User])
+@router.get("/draws", response_model=list[schemas.LottoDraw])
 def get_users(db: Session = Depends(session.get_db)):
-    users = crud.get_users(db)
-    return users
+    return crud.get_draws(db)
 
 
-@router.get("/users/{user_id}", response_model=schemas.User)
-def get_user(user_id: int, db: Session = Depends(session.get_db)):
-    user = crud.get_user(db, user_id)
-    return user
+@router.get("/draws/{lotto_type_id}", response_model=schemas.LottoDraw)
+def get_user(lotto_type_id: int, db: Session = Depends(session.get_db)):
+    return crud.get_draw(db, lotto_type_id)

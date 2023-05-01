@@ -4,3 +4,7 @@ alembic.ini
 
 # Ignore Cache Directories
 **/__pycache__/
+
+# IDE Settings
+.idea/
+.vscode/

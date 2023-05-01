@@ -1,8 +1,8 @@
-"""Create Lotto Draw with Lotto type
+"""Lotto Draw and types
 
-Revision ID: 75639ccd6265
+Revision ID: 969c3033696a
 Revises: 
-Create Date: 2023-04-26 11:05:59.975440
+Create Date: 2023-04-30 21:52:23.785335
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '75639ccd6265'
+revision = '969c3033696a'
 down_revision = None
 branch_labels = None
 depends_on = None

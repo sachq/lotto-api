@@ -3,10 +3,10 @@ from sqlalchemy.orm import Session
 from . import models
 
 
-def get_users(db: Session):
+def get_draws(db: Session):
     return db.query(models.LottoDraw).all()
 
 
-def get_user(db: Session, draw_id: int):
+def get_draw(db: Session, draw_id: int):
     return db.query(models.LottoDraw).filter(
-        models.LottoDraw.id == draw_id).first()
+        models.LottoDraw.lotto_type_id == draw_id).first()

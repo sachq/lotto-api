@@ -27,7 +27,7 @@ class LottoType(BaseModel):
         return {
             "id": self.id,
             "name": self.name,
-            "winning_draws": self.winning_draws,
+            "winning_draws": [draw.dict() for draw in self.winning_draws],
             "created_at": self.created_at,
             "updated_at": self.updated_at,
             "is_active": self.is_active,
@@ -47,11 +47,12 @@ class LottoDraw(BaseModel):
     J = sa.Column(sa.SmallInteger, nullable=False, index=True)
     lotto_type_id = sa.Column(sa.Integer, sa.ForeignKey("lotto_type.id"),
                               nullable=False)
+    lotto_type = relationship("LottoType", back_populates="winning_draws")
 
     def dict(self):
         return {
             "id": self.id,
-            "name": self.name,
+            "draw_date": self.draw_date,
             "A": self.A,
             "B": self.B,
             "C": self.C,
@@ -59,7 +60,7 @@ class LottoDraw(BaseModel):
             "E": self.E,
             "J": self.J,
             "lotto_type_id": self.lotto_type_id,
-            "winning_draws": self.winning_draws,
+            "lotto_type": self.lotto_type.dict(),
             "created_at": self.created_at,
             "updated_at": self.updated_at,
             "is_active": self.is_active,
