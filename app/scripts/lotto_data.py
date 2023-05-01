@@ -30,23 +30,25 @@ class LottoData:
         self._winning_cols_with_jackpot = winning_cols_copy
 
     def process_remote_lotto(self):
+        """
+        Cleans CSV data for each Lotto Dataset, Adds new lotto data to the
+        DB if it finds new Lotto Draw Data from the remote file.
+        """
         session = self.Session()
         for lotto_name in self._data_urls:
             print(f'\nAnalysing \'{lotto_name}\'')
 
             # gets the last updated draw date on the DB
             date_filter = pd.to_datetime(
-                self.get_last_updated_draw_date(lotto_name))
+                self._get_last_updated_draw_date(lotto_name))
 
             # Fetch Cleaned Lotto Draw Data
             df = self._fetch_draw_data(lotto_name)
             latest_draws = df[df['draw_date'] > date_filter]
             draws_arr = latest_draws.to_dict(orient='records')
 
+            # Update DB lotto draw table with the latest Draw Data
             if len(draws_arr):
-                """
-                Update DB lotto draw table with the latest Draw Data
-                """
                 print('Updating Lotto Draw Data: ')
                 for draw in draws_arr:
                     new_draw = LottoDraw(**draw)
@@ -57,9 +59,7 @@ class LottoData:
             else:
                 print(f'* Nothing new to add for \'{lotto_name}\'')
 
-            print('\n')
-
-    def get_last_updated_draw_date(self, lotto_name):
+    def _get_last_updated_draw_date(self, lotto_name):
         """
         Gets the Last updated Draw from the DB for the Given Lotto
         :param lotto_name:
