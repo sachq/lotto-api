@@ -1,4 +1,6 @@
-from fastapi import Depends, APIRouter
+from datetime import date
+
+from fastapi import Depends, APIRouter, HTTPException
 from sqlalchemy.orm import Session
 
 from app.api.db import schemas
@@ -9,10 +11,9 @@ router = APIRouter()
 
 
 @router.get("/draws", response_model=list[schemas.LottoDraw])
-def get_users(db: Session = Depends(session.get_db)):
-    return summary.get_draws(db)
-
-
-@router.get("/draws/{lotto_type_id}", response_model=schemas.LottoDraw)
-def get_user(lotto_type_id: int, db: Session = Depends(session.get_db)):
-    return summary.get_draw(db, lotto_type_id)
+def get_user(draw_date: date, db: Session = Depends(session.get_db)):
+    all_draws = summary.get_draw_by_date(db, draw_date)
+    if not all_draws:
+        raise HTTPException(status_code=404,
+                            detail=f'No draws found for the date: {draw_date}')
+    return all_draws
