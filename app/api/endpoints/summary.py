@@ -11,7 +11,16 @@ router = APIRouter()
 
 
 @router.get("/draws", response_model=list[schemas.LottoDraw])
-def get_user(draw_date: date, db: Session = Depends(session.get_db)):
+def get_all_draws(db: Session = Depends(session.get_db)):
+    all_draws = summary.get_draws(db)
+    if not all_draws:
+        raise HTTPException(status_code=404,
+                            detail=f'No draws found.')
+    return all_draws
+
+
+@router.get("/draws", response_model=list[schemas.LottoDraw])
+def get_draw_by_date(draw_date: date, db: Session = Depends(session.get_db)):
     all_draws = summary.get_draw_by_date(db, draw_date)
     if not all_draws:
         raise HTTPException(status_code=404,
