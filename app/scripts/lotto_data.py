@@ -1,6 +1,7 @@
 import io
 import ssl
 import urllib.request
+from datetime import date
 
 import pandas as pd
 from sqlalchemy import create_engine, desc
@@ -70,8 +71,13 @@ class LottoData:
             LottoType.name == lotto_name).order_by(
             desc(LottoDraw.draw_date)).first()
         session.close()
-        print(f'Last Draw Date: {last_draw.draw_date}')
-        return pd.to_datetime(last_draw.draw_date)
+
+        last_drawn_date = date(2000, 1, 1)
+        if last_draw is not None:
+            last_drawn_date = last_draw.draw_date
+
+        print(f'Last Draw Date: {last_drawn_date}')
+        return pd.to_datetime(last_drawn_date)
 
     def _fetch_draw_data(self, lotto_name):
         """

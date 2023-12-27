@@ -4,13 +4,14 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-fastapi = "*"
-uvicorn = "*"
-sqlalchemy = "*"
+fastapi = "==0.95.1"
+uvicorn = "==0.21.1"
+sqlalchemy = "==2.0.10"
 psycopg2-binary = "*"
-alembic = "*"
-pandas = "*"
+alembic = "~=1.10.3"
+pandas = "~=2.0.1"
 setuptools = "*"
+pydantic = {version = "==1.10.7", extras = ["dotenv"]}
 
 [dev-packages]
 

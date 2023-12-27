@@ -8,3 +8,6 @@ alembic.ini
 # IDE Settings
 .idea/
 .vscode/
+
+# docker files (for security reasons)
+docker-compose.yml
