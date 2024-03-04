@@ -58,7 +58,7 @@ class LottoData:
                 session.commit()
                 session.close()
             else:
-                print(f'* Nothing new to add for \'{lotto_name}\'')
+                print(f'* Nothing new to add for \'{lotto_name}\'\n')
 
     def _get_last_updated_draw_date(self, lotto_name):
         """

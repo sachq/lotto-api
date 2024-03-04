@@ -19,7 +19,7 @@ def get_all_draws(db: Session = Depends(session.get_db)):
     return all_draws
 
 
-@router.get("/draws", response_model=list[schemas.LottoDraw])
+@router.get("/draws/{draw_date}", response_model=list[schemas.LottoDraw])
 def get_draw_by_date(draw_date: date, db: Session = Depends(session.get_db)):
     all_draws = summary.get_draw_by_date(db, draw_date)
     if not all_draws:
