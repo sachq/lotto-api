@@ -1,6 +1,12 @@
 from datetime import date
+from enum import Enum
 
 from pydantic import BaseModel
+
+
+class LottoTypeEnum(str, Enum):
+    powerball = "powerball"
+    megamillion = "megamillion"
 
 
 class LottoType(BaseModel):
@@ -24,3 +30,10 @@ class LottoDraw(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class Prediction(BaseModel):
+    lotto_type: str
+    numbers: list[int]
+    bonus_number: int
+    next_draw_date: date
