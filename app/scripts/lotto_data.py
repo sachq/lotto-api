@@ -89,12 +89,21 @@ class LottoData:
                     # Update DB lotto draw table with the latest Draw Data
                     if len(draws_arr):
                         print('Updating Lotto Draw Data: ')
+                        added = 0
                         for draw in draws_arr:
+                            exists = session.query(LottoDraw).filter(
+                                LottoDraw.draw_date == draw['draw_date'],
+                                LottoDraw.lotto_type_id == draw['lotto_type_id']
+                            ).first()
+                            if exists:
+                                logger.info(f"Skipping duplicate draw: {draw['draw_date']}")
+                                continue
                             new_draw = LottoDraw(**draw)
                             session.add(new_draw)
                             print(f'* -> Added new draw from {draw["draw_date"]}')
+                            added += 1
                         session.commit()
-                        logger.info(f"Added {len(draws_arr)} new draws for {lotto_name}")
+                        logger.info(f"Added {added} new draws for {lotto_name}")
                     else:
                         print(f'* Nothing new to add for \'{lotto_name}\'\n')
                         logger.info(f"No new draws for {lotto_name}")
@@ -194,7 +203,7 @@ class LottoData:
         df = dataframe.copy()
         reindex_cols = self._winning_cols_with_jackpot.copy()
         reindex_cols.extend(['draw_date', 'lotto_type_id'])
-        df['draw_date'] = pd.to_datetime(df['Draw Date'], format='%m/%d/%y')
+        df['draw_date'] = df['Draw Date']
         cols_to_drop = ['Draw Date', 'Winning Numbers', 'Multiplier']
 
         # Get lotto type ID from database instead of hardcoding
@@ -210,7 +219,7 @@ class LottoData:
             df[self._winning_cols_with_jackpot] = df[
                 'Winning Numbers'].str.split(' ', expand=True)
 
-        df.drop(cols_to_drop, axis=1, inplace=True)
+        df.drop(cols_to_drop, axis=1, inplace=True, errors='ignore')
         df = df.reindex(columns=reindex_cols)
 
         # Convert number columns to integers

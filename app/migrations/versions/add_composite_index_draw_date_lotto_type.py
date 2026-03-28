@@ -31,8 +31,15 @@ def upgrade() -> None:
         ['lotto_type_id'],
         unique=False
     )
+    # Add unique constraint to prevent duplicate draws per date/type
+    op.create_unique_constraint(
+        'uq_draw_date_lotto_type',
+        'winning_draw',
+        ['draw_date', 'lotto_type_id']
+    )
 
 
 def downgrade() -> None:
+    op.drop_constraint('uq_draw_date_lotto_type', 'winning_draw', type_='unique')
     op.drop_index('ix_winning_draw_date_lotto_type', table_name='winning_draw')
     op.drop_index(op.f('ix_winning_draw_lotto_type_id'), table_name='winning_draw')

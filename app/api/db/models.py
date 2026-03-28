@@ -38,6 +38,7 @@ class LottoDraw(BaseModel):
     __tablename__ = "winning_draw"
     __table_args__ = (
         sa.Index('ix_winning_draw_date_lotto_type', 'draw_date', 'lotto_type_id'),
+        sa.UniqueConstraint('draw_date', 'lotto_type_id', name='uq_draw_date_lotto_type'),
     )
 
     id = sa.Column(sa.Integer, primary_key=True)
