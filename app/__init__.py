@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from .api.endpoints import router as api_router
+from .api import router as api_router
 from .config import get_settings
 
 # Initialize FastAPI Application
