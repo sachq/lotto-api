@@ -14,12 +14,12 @@ class LottoType(BaseModel):
 class LottoDraw(BaseModel):
     id: int
     draw_date: date
-    A: str
-    B: str
-    C: str
-    D: str
-    E: str
-    J: str
+    A: int
+    B: int
+    C: int
+    D: int
+    E: int
+    J: int
     lotto_type: LottoType
 
     class Config:

@@ -8,11 +8,11 @@ from . import Base
 
 class BaseModel(Base):
     __abstract__ = True
-    created_at = sa.Column(sa.DateTime, default=datetime.date.today,
+    created_at = sa.Column(sa.DateTime, default=datetime.datetime.utcnow,
                            server_default=sa.text('CURRENT_TIMESTAMP'))
-    updated_at = sa.Column(sa.DateTime,
+    updated_at = sa.Column(sa.DateTime, onupdate=datetime.datetime.utcnow,
                            server_onupdate=sa.text('CURRENT_TIMESTAMP'))
-    is_active = sa.Column(sa.Boolean, nullable=False,
+    is_active = sa.Column(sa.Boolean, nullable=False, default=True,
                           server_default=sa.text('true'))
 
 
@@ -36,6 +36,9 @@ class LottoType(BaseModel):
 
 class LottoDraw(BaseModel):
     __tablename__ = "winning_draw"
+    __table_args__ = (
+        sa.Index('ix_winning_draw_date_lotto_type', 'draw_date', 'lotto_type_id'),
+    )
 
     id = sa.Column(sa.Integer, primary_key=True)
     draw_date = sa.Column(sa.Date, nullable=False, index=True)
@@ -46,22 +49,5 @@ class LottoDraw(BaseModel):
     E = sa.Column(sa.SmallInteger, nullable=False, index=True)
     J = sa.Column(sa.SmallInteger, nullable=False, index=True)
     lotto_type_id = sa.Column(sa.Integer, sa.ForeignKey("lotto_type.id"),
-                              nullable=False)
+                              nullable=False, index=True)
     lotto_type = relationship("LottoType", back_populates="winning_draws")
-
-    def dict(self):
-        return {
-            "id": self.id,
-            "draw_date": self.draw_date,
-            "A": self.A,
-            "B": self.B,
-            "C": self.C,
-            "D": self.D,
-            "E": self.E,
-            "J": self.J,
-            "lotto_type_id": self.lotto_type_id,
-            "lotto_type": self.lotto_type.dict(),
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
-            "is_active": self.is_active,
-        }

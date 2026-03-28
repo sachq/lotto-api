@@ -12,6 +12,7 @@ alembic = "~=1.10.3"
 pandas = "~=2.0.1"
 setuptools = "*"
 pydantic = {version = "==1.10.7", extras = ["dotenv"]}
+certifi = "*"
 
 [dev-packages]
 
