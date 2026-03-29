@@ -4,15 +4,17 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-fastapi = "==0.95.1"
-uvicorn = "==0.21.1"
-sqlalchemy = "==2.0.10"
+fastapi = ">=0.100.0"
+uvicorn = ">=0.21.1"
+sqlalchemy = ">=2.0.10"
 psycopg2-binary = "*"
-alembic = "~=1.10.3"
-pandas = "~=2.0.1"
+alembic = ">=1.10.3"
+pandas = ">=2.0.1"
 setuptools = "*"
-pydantic = {version = "==1.10.7", extras = ["dotenv"]}
+pydantic = ">=2.0"
+pydantic-settings = "*"
 certifi = "*"
+mcp = {version = ">=1.0.0", extras = ["cli"]}
 
 [dev-packages]
 

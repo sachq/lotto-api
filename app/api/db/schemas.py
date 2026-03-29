@@ -14,7 +14,7 @@ class LottoType(BaseModel):
     name: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class LottoDraw(BaseModel):
@@ -29,7 +29,7 @@ class LottoDraw(BaseModel):
     lotto_type: LottoType
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class PaginatedDraws(BaseModel):

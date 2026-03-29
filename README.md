@@ -141,6 +141,58 @@ Predictions are deterministic per draw date — the same date always returns the
 | Powerball | Monday, Wednesday, Saturday |
 | Megamillion | Tuesday, Friday |
 
+## MCP Server
+
+The project includes an MCP (Model Context Protocol) server that exposes lottery tools for AI assistants like Claude.
+
+### Available Tools
+
+| Tool | Description |
+|------|-------------|
+| `get_draws` | Get paginated historical draws |
+| `get_draws_by_date` | Get draws for a specific date |
+| `get_draws_by_type` | Get draws filtered by lottery type |
+| `get_draws_in_range` | Get draws within a date range |
+| `generate_prediction` | Generate frequency-weighted predictions |
+| `get_next_draw_date` | Get the next upcoming draw date |
+| `fetch_latest_data` | Ingest latest data from NY Open Data |
+| `get_number_frequencies` | Get frequency counts for all numbers |
+| `get_hot_cold_numbers` | Get most/least frequently drawn numbers |
+| `get_draw_stats` | Get summary statistics about stored draws |
+
+### Running the MCP Server
+
+**With Docker:**
+
+```bash
+make mcp
+```
+
+**Locally:**
+
+```bash
+PYTHONPATH=. pipenv run python -m app.mcp.server
+```
+
+### Claude Code Configuration
+
+Add this to your Claude Code MCP settings:
+
+```json
+{
+  "mcpServers": {
+    "lotto": {
+      "command": "python",
+      "args": ["-m", "app.mcp.server"],
+      "cwd": "/path/to/lotto-api",
+      "env": {
+        "POSTGRES_DB_URI": "postgresql://user:pass@localhost:5432/lotto"
+      }
+    }
+  }
+}
+```
+
 ## Data Source
 
 Historical draw data is sourced from the [NY Open Data](https://data.ny.gov) portal:
