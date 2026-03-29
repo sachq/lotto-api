@@ -32,6 +32,14 @@ class LottoDraw(BaseModel):
         orm_mode = True
 
 
+class PaginatedDraws(BaseModel):
+    items: list[LottoDraw]
+    page: int
+    per_page: int
+    total_items: int
+    total_pages: int
+
+
 class Combination(BaseModel):
     numbers: list[int]
     bonus_number: int

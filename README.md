@@ -4,14 +4,23 @@ A FastAPI application that tracks Powerball and Megamillion lottery draws and ge
 
 > **Disclaimer:** This is a fun/educational project. The predictions generated are based on historical frequency analysis and have absolutely no connection to the actual lottery random number generators (RNGs). Lottery draws are independent random events — past results do not influence future outcomes. Please play responsibly.
 
-## Prerequisites
+## Quick Start (Docker)
+
+```bash
+cp .env.template .env
+# Edit .env with your credentials
+docker compose up --build
+```
+
+This starts PostgreSQL, runs migrations, populates lottery data, and serves the API at `http://localhost`.
+
+## Manual Setup
+
+### Prerequisites
 
 - Python 3.11
 - PostgreSQL
 - Pipenv
-- Docker (optional, for PostgreSQL)
-
-## Setup
 
 ### 1. Install dependencies
 
@@ -34,13 +43,7 @@ PYTHONPATH=/path/to/lotto-api
 
 ### 3. Start PostgreSQL
 
-Using Docker:
-
-```bash
-docker-compose up -d
-```
-
-Or use an existing PostgreSQL instance and update `POSTGRES_DB_URI` accordingly.
+Use an existing PostgreSQL instance and update `POSTGRES_DB_URI` accordingly.
 
 ### 4. Run database migrations
 
@@ -80,8 +83,20 @@ Base URL: `/api/v1`
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `skip` | int | 0 | Number of records to skip |
-| `limit` | int | 100 | Max records to return (1-1000) |
+| `page` | int | 1 | Page number |
+| `per_page` | int | 50 | Items per page (1-500) |
+
+**Example response:**
+
+```json
+{
+  "items": [{ "id": 1, "draw_date": "2026-03-25", "A": 7, ... }],
+  "page": 1,
+  "per_page": 50,
+  "total_items": 5407,
+  "total_pages": 109
+}
+```
 
 ### Prediction
 
