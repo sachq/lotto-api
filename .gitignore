@@ -1,6 +1,5 @@
 # Ignore Environment Files
 .env
-alembic.ini
 
 # Ignore Cache Directories
 **/__pycache__/
@@ -8,6 +7,3 @@ alembic.ini
 # IDE Settings
 .idea/
 .vscode/
-
-# docker files (for security reasons)
-docker-compose.yml
