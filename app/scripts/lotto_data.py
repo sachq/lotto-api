@@ -46,12 +46,27 @@ class LottoData:
         # Cache for lotto type IDs
         self._lotto_type_ids = None
 
+    def _seed_lotto_types(self):
+        """Creates lotto type records if they don't exist."""
+        session = self.Session()
+        try:
+            for name in self._data_urls:
+                exists = session.query(LottoType).filter(
+                    LottoType.name == name).first()
+                if not exists:
+                    session.add(LottoType(name=name))
+                    logger.info(f"Created lotto type: {name}")
+            session.commit()
+        finally:
+            session.close()
+
     def _get_lotto_type_id(self, lotto_name: str) -> int:
         """
         Gets the lotto type ID from the database by name.
         Caches the results to avoid repeated queries.
         """
         if self._lotto_type_ids is None:
+            self._seed_lotto_types()
             session = self.Session()
             try:
                 lotto_types = session.query(LottoType).filter(
