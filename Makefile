@@ -1,4 +1,4 @@
-.PHONY: build rebuild up down logs
+.PHONY: build rebuild up down logs fetch-data
 
 build:
 	docker compose build
@@ -14,3 +14,6 @@ down:
 
 logs:
 	docker compose logs -f
+
+fetch-data:
+	docker exec lotto_api python -m app.scripts.lotto_data
