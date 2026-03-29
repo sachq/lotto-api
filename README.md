@@ -160,34 +160,36 @@ The project includes an MCP (Model Context Protocol) server that exposes lottery
 | `get_hot_cold_numbers` | Get most/least frequently drawn numbers |
 | `get_draw_stats` | Get summary statistics about stored draws |
 
-### Running the MCP Server
+### Connecting to the MCP Server
 
-**With Docker:**
+The MCP server is mounted inside the FastAPI app at `/mcp` using Streamable HTTP transport. It starts automatically with the API -- no separate service needed.
 
-```bash
-make mcp
-```
-
-**Locally:**
-
-```bash
-PYTHONPATH=. pipenv run python -m app.mcp.server
-```
-
-### Claude Code Configuration
-
-Add this to your Claude Code MCP settings:
+**Remote (Streamable HTTP):**
 
 ```json
 {
   "mcpServers": {
     "lotto": {
-      "command": "python",
-      "args": ["-m", "app.mcp.server"],
-      "cwd": "/path/to/lotto-api",
-      "env": {
-        "POSTGRES_DB_URI": "postgresql://user:pass@localhost:5432/lotto"
-      }
+      "type": "streamable-http",
+      "url": "http://localhost/mcp"
+    }
+  }
+}
+```
+
+**Local (stdio):**
+
+```bash
+PYTHONPATH=. pipenv run python -m app.mcp.server
+```
+
+```json
+{
+  "mcpServers": {
+    "lotto": {
+      "command": "pipenv",
+      "args": ["run", "python", "-m", "app.mcp.server"],
+      "cwd": "/path/to/lotto-api"
     }
   }
 }

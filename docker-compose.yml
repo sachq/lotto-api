@@ -27,18 +27,5 @@ services:
       db:
         condition: service_healthy
 
-  mcp:
-    build: .
-    container_name: lotto_mcp
-    env_file:
-      - .env
-    environment:
-      - POSTGRES_DB_URI=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
-    depends_on:
-      db:
-        condition: service_healthy
-    entrypoint: ["python", "-m", "app.mcp.server"]
-    stdin_open: true
-
 volumes:
   pg_data:

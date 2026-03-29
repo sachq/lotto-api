@@ -3,7 +3,9 @@ import logging
 
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
+from mcp.server.streamable_http_manager import StreamableHTTPSessionManager
 from mcp.types import TextContent
+from starlette.routing import Mount
 
 from app.mcp.tools import draws, predictions, ingestion, analytics
 
@@ -32,6 +34,13 @@ async def call_tool(name: str, arguments: dict):
         return [TextContent(type="text", text=f"Unknown tool: {name}")]
     result = await asyncio.to_thread(handler, arguments)
     return [TextContent(type="text", text=result)]
+
+
+session_manager = StreamableHTTPSessionManager(app=server)
+
+
+def create_http_app():
+    return Mount("/", app=session_manager.handle_request)
 
 
 async def main():

@@ -1,4 +1,4 @@
-.PHONY: build rebuild up down logs fetch-data mcp
+.PHONY: build rebuild up down logs fetch-data
 
 build:
 	docker compose build
@@ -17,6 +17,3 @@ logs:
 
 fetch-data:
 	docker exec lotto_api python -m app.scripts.lotto_data
-
-mcp:
-	docker compose run --rm mcp
