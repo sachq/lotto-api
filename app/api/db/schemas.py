@@ -32,8 +32,12 @@ class LottoDraw(BaseModel):
         orm_mode = True
 
 
-class Prediction(BaseModel):
-    lotto_type: str
+class Combination(BaseModel):
     numbers: list[int]
     bonus_number: int
-    next_draw_date: date
+
+
+class Prediction(BaseModel):
+    lotto_type: str
+    draw_date: date
+    combinations: list[Combination]

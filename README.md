@@ -91,18 +91,33 @@ Base URL: `/api/v1`
 
 **Path parameter:** `lotto_type` — `powerball` or `megamillion`
 
+**Query parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `draw_date` | date | next draw day | Specific draw date (must be a valid draw day) |
+| `count` | int | 1 | Number of combinations to generate (1-10) |
+
 **Example response:**
 
 ```json
 {
   "lotto_type": "Powerball",
-  "numbers": [7, 19, 34, 52, 61],
-  "bonus_number": 14,
-  "next_draw_date": "2026-03-29"
+  "draw_date": "2026-03-28",
+  "combinations": [
+    {
+      "numbers": [7, 19, 34, 52, 61],
+      "bonus_number": 14
+    },
+    {
+      "numbers": [3, 22, 38, 45, 67],
+      "bonus_number": 9
+    }
+  ]
 }
 ```
 
-Predictions are weighted by historical number frequency — numbers that have appeared more often in past draws have a higher chance of being selected.
+Predictions are deterministic per draw date — the same date always returns the same combinations. Numbers are weighted by historical frequency from past draws. Passing an invalid draw day (e.g. a Thursday for Powerball) returns a 400 error.
 
 **Draw schedules:**
 
