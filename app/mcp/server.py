@@ -5,8 +5,6 @@ from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.server.streamable_http_manager import StreamableHTTPSessionManager
 from mcp.types import TextContent
-from starlette.routing import Mount
-
 from app.mcp.tools import draws, predictions, ingestion, analytics
 
 logging.basicConfig(level=logging.INFO)
@@ -37,10 +35,6 @@ async def call_tool(name: str, arguments: dict):
 
 
 session_manager = StreamableHTTPSessionManager(app=server)
-
-
-def create_http_app():
-    return Mount("/", app=session_manager.handle_request)
 
 
 async def main():
