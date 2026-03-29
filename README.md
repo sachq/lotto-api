@@ -162,7 +162,7 @@ The project includes an MCP (Model Context Protocol) server that exposes lottery
 
 ### Connecting to the MCP Server
 
-The MCP server is mounted inside the FastAPI app at `/mcp` using Streamable HTTP transport. It starts automatically with the API -- no separate service needed.
+The MCP server is mounted inside the FastAPI app at `/lotto-mcp` using Streamable HTTP transport. It starts automatically with the API -- no separate service needed.
 
 **Remote (Streamable HTTP):**
 
@@ -171,7 +171,7 @@ The MCP server is mounted inside the FastAPI app at `/mcp` using Streamable HTTP
   "mcpServers": {
     "lotto": {
       "type": "streamable-http",
-      "url": "http://localhost/mcp"
+      "url": "http://localhost/lotto-mcp"
     }
   }
 }

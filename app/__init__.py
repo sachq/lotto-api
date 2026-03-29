@@ -23,9 +23,9 @@ _fastapi.include_router(api_router, prefix=settings.API_PREFIX)
 
 
 async def app(scope, receive, send):
-    """ASGI entrypoint that routes /mcp to the MCP server, everything else to FastAPI."""
-    if scope["type"] == "http" and scope["path"].startswith("/mcp"):
-        scope["path"] = scope["path"][4:] or "/"
+    """ASGI entrypoint that routes /lotto-mcp to the MCP server, everything else to FastAPI."""
+    if scope["type"] == "http" and scope["path"].startswith("/lotto-mcp"):
+        scope["path"] = scope["path"][10:] or "/"
         await session_manager.handle_request(scope, receive, send)
     else:
         await _fastapi(scope, receive, send)
